@@ -32,7 +32,12 @@ class Signup extends Component {
   }
 
   onSubmit = ({ email, password }) => {
-    this.props.registerUser(email, password);
+    const userObj = {
+      email,
+      password
+    };
+
+    this.props.registerUser(userObj, this.state.isSignedIn);
     this.setState({ redirect: true });
   }
 
@@ -78,7 +83,6 @@ const validate = (formValues) => {
 }
 
 const mapStateToProps = state => {
-  // console.log('sup', state);
   return {
     isSignedIn: state.auth.isSignedIn
   }

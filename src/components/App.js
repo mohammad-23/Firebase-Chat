@@ -1,10 +1,14 @@
+import '../css/app.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
 import * as actions from '../actions';
-import '../css/app.css';
+
+
 import Landing from './Landing';
-import Register from './Auth/Register';
+import Chat from './Chat';
+// import Register from './Auth/Register';
+import OauthFirebase from './Auth/OauthFirebase';
 
 class App extends Component {    
     componentDidMount () {
@@ -13,11 +17,12 @@ class App extends Component {
 
     render () {       
         return (
-            <div className='ui container'>
+            <div>
                 <BrowserRouter>
                     <div>
-                        <Route exact path='/auth' component={Register}/>
                         <Route exact path='/' component={Landing}/>
+                        <Route exact path='/auth' component={OauthFirebase}/>
+                        <Route exact path='/chat' component={Chat} />
                     </div>
                 </BrowserRouter>
             </div>

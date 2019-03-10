@@ -29,8 +29,8 @@ class Login extends Component {
     )
   }
 
-  onSubmit = ({ email, password }) => {
-    this.props.loginUser(email, password);
+  onSubmit = ({ user, isSignedIn }) => {
+    this.props.loginUser(user, isSignedIn);
     this.setState({ redirect: true })
   }
 

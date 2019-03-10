@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signOut } from '../actions';
+import Chat from './Chat';
 
 class Landing extends Component {
     state = {
-        user: localStorage.getItem('user')
+        user: localStorage.getItem('user'),
+
     }
 
     componentDidMount() {
@@ -11,23 +15,29 @@ class Landing extends Component {
     } 
 
     onClick = () => {
-        console.log('user');
         localStorage.removeItem('user');
         this.setState({user: null});
-    }
+        this.props.signOut();
+    }    
 
     render() {
-        if(!this.state.user){
+        if(!this.state.user) {
             return <Redirect to='/auth' />
-        }
+         }
 
-        return (
+        return ( 
             <div>
-                <button className="ui button primary" onClick={this.onClick}>Log Out</button>
-                LANDING!!!
-        </div>
+                <Chat onClick={this.onClick}/>
+            </div>
         )
     }
 };
 
-export default Landing;
+const mapStateToProps = state => {
+    console.log(state);
+    return {
+        isSignedIn: state.auth.isSignedIn
+    }
+}
+
+export default connect(null, { signOut })(Landing);
