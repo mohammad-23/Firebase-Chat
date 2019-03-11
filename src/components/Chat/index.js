@@ -7,7 +7,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import ChatBox from './ChatBox';
 import UserList from './UserList';
 
-const { Sider, Content, Footer, Header } = Layout;
+const { Sider, Content, Header } = Layout;
 
 class Chat extends Component {
     state = {

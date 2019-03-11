@@ -34,8 +34,17 @@ export const selectUser = (user) => {
 
 
 export const registerUser = (user, isSignedIn) => {
+    const { password, email, displayName } = user;
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        alert('You have Successfully Registered');     
+      })     
+      .catch(error => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // console.log(error);            
+      });
     let creds = { user, isSignedIn };
-    localStorage.setItem('user', creds);
     return {
         type: SIGNUP,
         payload: creds

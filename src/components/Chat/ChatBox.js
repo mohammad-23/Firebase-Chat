@@ -1,11 +1,11 @@
 import '../../css/app.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import firebase, { storage } from 'firebase';
+import firebase from 'firebase';
 import _isEqual from 'lodash/isEqual';
 import _ from 'lodash';
 
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
 import { setImg } from '../../actions';
 
 class ChatBox extends Component {
@@ -91,7 +91,7 @@ class ChatBox extends Component {
             return (
                 <div className="containerMessage" key={idx}>
                     <img src={selectedUser.photoURL} alt="" style={{ width: '100%' }}></img>
-                    {message.type === 'text' ? <p>{message.text}</p> : <img src={message.imageUrl} onClick={this.props.setImg(message.imageUrl)}></img>}
+                    {message.type === 'text' ? <p>{message.text}</p> : <img alt='' src={message.imageUrl} onClick={this.props.setImg(message.imageUrl)}></img>}
                     <span className="time-right">{new Date(message.timestamp).toDateString()}</span>
                 </div>
             )
@@ -99,7 +99,7 @@ class ChatBox extends Component {
             return (
                 <div className="containerMessage darker" key={idx}>
                     <img src={currentUser.photoURL} alt="" className="right" style={{ width: '100%' }}></img>
-                    {message.type === 'text' ? <p className='right'>{message.text}</p> : <img src={message.imageUrl} onClick={() => { this.props.setImg(message.imageUrl); this.showModal() }}></img>}
+                    {message.type === 'text' ? <p className='right'>{message.text}</p> : <img alt='' src={message.imageUrl} onClick={() => { this.props.setImg(message.imageUrl); this.showModal() }}></img>}
                     <span className="time-left">{new Date(message.timestamp).toDateString()}</span>
                 </div>
             )
@@ -205,7 +205,7 @@ class ChatBox extends Component {
                     onOk={this.handleOk}
                     footer={null}
                     onCancel={this.handleCancel}
-                ><img className="modalImg" src={this.props.image}></img></Modal>
+                ><img className="modalImg" alt='' src={this.props.image}></img></Modal>
             </div>
         )
     }

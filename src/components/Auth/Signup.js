@@ -3,11 +3,19 @@ import { Redirect } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { registerUser } from '../../actions';
 import { connect } from 'react-redux';
+import { Row, Col, Card } from 'antd';
+import firebase from 'firebase';
+
+import StyledComponents from '../StyledComponents';
+import OauthFirebase from './OauthFirebase';
+
+const { UppercaseH2 } = StyledComponents;
 
 
 class Signup extends Component {
   state = {
-    redirect: false
+    redirect: false,
+    isLogin: false
   }
 
   renderError = ({ error, touched, submitting }) => {
@@ -23,7 +31,7 @@ class Signup extends Component {
   renderInput = ({ input, label, meta }) => {
     const className = `${meta.error && meta.touched ? 'error' : ''}`
     return (
-      <div className={className} style={{ padding: '10px'}}>
+      <div className={className} style={{ padding: '10px' }}>
         <label>{label}</label>
         <input {...input} autoComplete="off" />
         {this.renderError(meta)}
@@ -31,38 +39,56 @@ class Signup extends Component {
     )
   }
 
-  onSubmit = ({ email, password }) => {
+  onSubmit = ({ email, password, displayName }) => {
     const userObj = {
       email,
-      password
+      password,
+      displayName
     };
 
-    this.props.registerUser(userObj, this.state.isSignedIn);
-    this.setState({ redirect: true });
+    this.props.registerUser(userObj, this.props.isSignedIn);
+    this.props.history.push('/login');      
   }
 
   componentDidMount() {
     let user = localStorage.getItem('user');
-    if (user) {
-      return (
-        <Redirect to="/" />
-      )
-    }
+  }
+
+  handleClick = () => {
+    this.props.history.push('/login');
   }
 
   render() {
-    if (this.state.redirect) {
-      return (
-        <Redirect to="/" />
-      )
-    }
     return (
       <div className="ui container">
-        <form className="ui form error" onSubmit={this.props.handleSubmit(this.onSubmit)}>
-          <Field name="email" component={this.renderInput} label="Enter Email" />
-          <Field name="password" component={this.renderInput} label="Enter password" />
-          <button className="ui button primary">Submit</button>
-        </form>
+        <Col style={{ paddingTop: '20px', paddingBottom: '50px', marginTop: '30px' }} >
+          <Row md={24} lg={12}>
+            <Card style={{ margin: '10px auto', width: '60%' }}>
+              <div style={{ textAlign: 'center' }}>
+                <UppercaseH2>
+                  Register
+            </UppercaseH2>
+                <br />
+                <form className="ui form error" onSubmit={this.props.handleSubmit(this.onSubmit)}>
+                  <Field name="email" component={this.renderInput} label="Enter Email" />
+                  <Field name="password" component={this.renderInput} label="Enter password" />
+                  <Field name="displayName" component={this.renderInput} label="Enter Username" />
+                  <button className="ui button primary">Submit</button>
+                </form>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <h2 style={{ padding: '10px' }}>
+                  Or
+            </h2>
+                <button className="ui primary button" onClick={this.handleClick}>Already a user? Login</button>
+                <h3 style={{ padding: '10px' }}>
+                  Or
+            </h3>
+                <OauthFirebase />
+              </div>
+            </Card>
+          </Row>
+        </Col>
       </div>
     )
   };
@@ -84,7 +110,8 @@ const validate = (formValues) => {
 
 const mapStateToProps = state => {
   return {
-    isSignedIn: state.auth.isSignedIn
+    isSignedIn: state.auth.isSignedIn,
+    currentUser: state.auth.user
   }
 }
 

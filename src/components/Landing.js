@@ -5,15 +5,6 @@ import { signOut } from '../actions';
 import Chat from './Chat';
 
 class Landing extends Component {
-    state = {
-        user: localStorage.getItem('user'),
-
-    }
-
-    componentDidMount() {
-        
-    } 
-
     onClick = () => {
         localStorage.removeItem('user');
         this.setState({user: null});
@@ -21,8 +12,8 @@ class Landing extends Component {
     }    
 
     render() {
-        if(!this.state.user) {
-            return <Redirect to='/auth' />
+        if(!this.props.currentUser) {
+            return <Redirect to='/signup' />
          }
 
         return ( 
@@ -34,10 +25,10 @@ class Landing extends Component {
 };
 
 const mapStateToProps = state => {
-    console.log(state);
     return {
-        isSignedIn: state.auth.isSignedIn
+        isSignedIn: state.auth.isSignedIn,
+        currentUser: state.auth.user
     }
 }
 
-export default connect(null, { signOut })(Landing);
+export default connect(mapStateToProps, { signOut })(Landing);
