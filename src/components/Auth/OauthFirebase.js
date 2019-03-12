@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import firebase from 'firebase';
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import { connect } from 'react-redux';
-import keys from '../../config/keys';
+import keys from '../../../config/keys';
 
 import { loginUser } from '../../actions';
 
