@@ -11,6 +11,12 @@ class Landing extends Component {
         this.props.signOut();
     }    
 
+    componentDidMount() {
+        if(!this.props.currentUser) {
+            this.props.history.push('/signup');
+        }
+    }
+
     render() {
         if(!this.props.currentUser) {
             return <Redirect to='/signup' />
