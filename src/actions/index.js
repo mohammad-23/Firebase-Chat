@@ -34,21 +34,27 @@ export const selectUser = (user) => {
 
 
 export const registerUser = (user, isSignedIn) => {
-    const { password, email, displayName } = user;
+    const { password, email, displayName, photoURL } = user;
     firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        alert('You have Successfully Registered');     
-      })     
-      .catch(error => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // console.log(error);            
-      });
-    let creds = { user, isSignedIn };
-    return {
-        type: SIGNUP,
-        payload: creds
-    }
+        .then(user => {
+            user.updateProfile({
+                displayName,
+                photoURL: photoURL || 'https://previews.123rf.com/images/martialred/martialred1608/martialred160800020/61263273-male-user-account-profile-circle-flat-icon-for-apps-and-websites.jpg'
+            }).then(function () {
+                // Update successful.
+                alert('You have Successfully Registered');
+            })
+                .catch(error => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // console.log(error);            
+                });
+            let creds = { user, isSignedIn };
+            return {
+                type: SIGNUP,
+                payload: creds
+            }
+        })
 }
 
 export const signOut = (user) => {
