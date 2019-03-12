@@ -7,10 +7,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 import Chat from './Chat';
 import Landing from './Landing';
-// import Register from './Auth/Register';
 import Signup from './Auth/Signup';
 import Login from './Auth/Login';
-// import OauthFirebase from './Auth/OauthFirebase';
 
 class App extends Component {    
     render () {    
@@ -19,7 +17,6 @@ class App extends Component {
                 <BrowserRouter>
                     <div>
                         <Route exact path='/' component={Landing}/>
-                        {/* <Route exact path='/auth' component={Register}/>  */}
                         <Route exact path='/signup' component={Signup} />
                         <Route exact path='/login' component={Login} />
                         <Route exact path='/chat' component={Chat} />
