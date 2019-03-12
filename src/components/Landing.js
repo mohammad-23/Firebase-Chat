@@ -13,7 +13,7 @@ class Landing extends Component {
 
     componentDidMount() {
         if(!this.props.currentUser) {
-            this.props.history.push('/signup');
+            return this.props.history.push('/signup');
         }
     }
 
