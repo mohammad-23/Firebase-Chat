@@ -8,7 +8,7 @@ import keys from '../../config/keys';
 import { loginUser } from '../../actions';
 
 firebase.initializeApp({
-    apiKey: keyof.apiKey,
+    apiKey: keys.apiKey,
     authDomain: keys.authDomain,
     databaseURL: keys.databaseURL,
     projectId: keys.projectId,
