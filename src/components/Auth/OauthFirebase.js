@@ -3,16 +3,17 @@ import { Redirect } from 'react-router-dom';
 import firebase from 'firebase';
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import { connect } from 'react-redux';
+import keys from '../../config/keys';
 
 import { loginUser } from '../../actions';
 
 firebase.initializeApp({
-    apiKey: "AIzaSyDbrW1PpnbvfAfMlATbajl1dRvwm2jjA8Y",
-    authDomain: "chat-firebase-0001.firebaseapp.com",
-    databaseURL: "https://chat-firebase-0001.firebaseio.com",
-    projectId: "chat-firebase-0001",
-    storageBucket: "chat-firebase-0001.appspot.com",
-    messagingSenderId: "369170871620"
+    apiKey: keyof.apiKey,
+    authDomain: keys.authDomain,
+    databaseURL: keys.databaseURL,
+    projectId: keys.projectId,
+    storageBucket: keys.storageBucket,
+    messagingSenderId: keys.messagingSenderId
 });
 
 class OauthFirebase extends Component {
