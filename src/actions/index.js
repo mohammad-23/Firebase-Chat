@@ -34,12 +34,12 @@ export const selectUser = (user) => {
 
 
 export const registerUser = (user, isSignedIn) => {
-    const { password, email, displayName, photoURL } = user;
+    const { password, email, displayName } = user;
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(user => {
             user.updateProfile({
                 displayName,
-                photoURL: photoURL || 'https://previews.123rf.com/images/martialred/martialred1608/martialred160800020/61263273-male-user-account-profile-circle-flat-icon-for-apps-and-websites.jpg'
+                photoURL: 'https://previews.123rf.com/images/martialred/martialred1608/martialred160800020/61263273-male-user-account-profile-circle-flat-icon-for-apps-and-websites.jpg'
             }).then(function () {
                 // Update successful.
                 alert('You have Successfully Registered');
