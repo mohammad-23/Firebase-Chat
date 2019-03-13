@@ -12,6 +12,7 @@ export const loginUser = (user, isSignedIn) => {
         .ref()
         .update(userData);
     localStorage.setItem('user', creds);
+    console.log(userData);
     return {
         type: LOGIN,
         payload: creds
@@ -36,25 +37,25 @@ export const selectUser = (user) => {
 export const registerUser = (user, isSignedIn) => {
     const { password, email, displayName } = user;
     firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(user => {
-            user.updateProfile({
+        .then(() => {
+            var createdUser = firebase.auth().currentUser;
+            createdUser.updateProfile({
                 displayName,
                 photoURL: 'https://previews.123rf.com/images/martialred/martialred1608/martialred160800020/61263273-male-user-account-profile-circle-flat-icon-for-apps-and-websites.jpg'
-            }).then(function () {
-                // Update successful.
+            }).then(() => {
                 alert('You have Successfully Registered');
-            })
-                .catch(error => {
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    // console.log(error);            
-                });
-            let creds = { user, isSignedIn };
-            return {
-                type: SIGNUP,
-                payload: creds
-            }
+            });
         })
+        .catch(error => {
+            // var errorCode = error.code;
+            // var errorMessage = error.message;
+            console.log(error);
+        });
+    const creds = { user, isSignedIn };
+    return {
+        type: SIGNUP,
+        payload: creds
+    }
 }
 
 export const signOut = (user) => {

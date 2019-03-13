@@ -39,8 +39,8 @@ class UserList extends Component {
     render() {
         return (
             <div className="chat__sidebar" style={{ width: '200px' }}>
-                <h3>People Connected</h3>
-                <ol id="Users">
+                <h3>People Online</h3>
+                <ol id="Users" style={{paddingTop: '15px'}}>
                     {_.map(this.state.usersList, this.renderUsers)}
                 </ol>
             </div>

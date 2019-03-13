@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import firebase from 'firebase';
 import _isEqual from 'lodash/isEqual';
 import _ from 'lodash';
+import { Redirect } from 'react-router-dom';
 
 import { Modal } from 'antd';
 import { setImg } from '../../actions';
@@ -20,6 +21,11 @@ class ChatBox extends Component {
             visible: false,
             imgUrl: ''
         };
+        
+    }
+
+    componentDidMount() {
+        
     }
 
     componentWillMount() {
@@ -54,35 +60,6 @@ class ChatBox extends Component {
         }
     }
 
-    onClick = (e) => {
-        e.preventDefault();
-        let selectedUserId = this.props.match.params.id;
-
-        let newPostKey = firebase
-            .database()
-            .ref()
-            .child("conversations")
-            .push().key;
-        let uid1 = this.props.currentUser.uid;
-        let uid2 = selectedUserId;
-        let chatKey = (uid1 > uid2) ? (uid1 + '-' + uid2) : (uid2 + '-' + uid1);
-        let frbMsg = {
-            text: this.state.message,
-            timestamp: new Date().toISOString(),
-            type: 'text',
-            imageUrl: '',
-            senderUID: uid1
-        };
-
-        var updates = {};
-        updates["/conversations/" + chatKey + "/" + newPostKey] = frbMsg;
-        firebase
-            .database()
-            .ref()
-            .update(updates);
-        this.setState({ message: '' });
-    }
-
     renderMessages = (message, idx) => {
         let currentUser = this.state.props.currentUser;
         let selectedUser = this.state.props.selectedUser
@@ -91,7 +68,7 @@ class ChatBox extends Component {
             return (
                 <div className="containerMessage" key={idx}>
                     <img src={selectedUser.photoURL} alt="" style={{ width: '100%' }}></img>
-                    {message.type === 'text' ? <p>{message.text}</p> : <img alt='' src={message.imageUrl} onClick={this.props.setImg(message.imageUrl)}></img>}
+                    {message.type === 'text' ? <p>{message.text}</p> : <img alt='' src={message.imageUrl} onClick={() => { this.props.setImg(message.imageUrl); this.showModal() }}></img>}
                     <span className="time-right">{new Date(message.timestamp).toDateString()}</span>
                 </div>
             )
@@ -116,11 +93,6 @@ class ChatBox extends Component {
         });
     }
 
-    handleOk = (e) => {
-        this.setState({
-            visible: false
-        });
-    }
 
     handleCancel = (e) => {
         this.setState({
@@ -132,7 +104,7 @@ class ChatBox extends Component {
     handleImage = e => {
         if (e.target.files[0]) {
             const image = e.target.files[0];
-            console.log(image);
+
             let storage = firebase.storage();
             const uploadTask = storage.ref(`/Chat_Images/${image.name}`).put(image);
             uploadTask.on('state_changed',
@@ -141,7 +113,7 @@ class ChatBox extends Component {
                 () => {
                     // complete function ....
                     storage.ref('Chat_Images').child(image.name).getDownloadURL().then(url => {
-                        console.log(url);
+                        // console.log(url);
                         let selectedUserId = this.props.match.params.id;
                         let newPostKey = firebase
                             .database()
@@ -167,6 +139,35 @@ class ChatBox extends Component {
                     })
                 });
         }
+    }
+
+    onClick = (e) => {
+        if (!this.state.message) return;
+        e.preventDefault();
+        let selectedUserId = this.props.match.params.id;
+        let newPostKey = firebase
+            .database()
+            .ref()
+            .child("conversations")
+            .push().key;
+        let uid1 = this.props.currentUser.uid;
+        let uid2 = selectedUserId;
+        let chatKey = (uid1 > uid2) ? (uid1 + '-' + uid2) : (uid2 + '-' + uid1);
+        let frbMsg = {
+            text: this.state.message,
+            timestamp: new Date().toISOString(),
+            type: 'text',
+            imageUrl: '',
+            senderUID: uid1
+        };
+
+        var updates = {};
+        updates["/conversations/" + chatKey + "/" + newPostKey] = frbMsg;
+        firebase
+            .database()
+            .ref()
+            .update(updates);
+        this.setState({ message: '' });
     }
 
     render() {
@@ -195,6 +196,7 @@ class ChatBox extends Component {
                                     <button onClick={this.onClick}>Send</button>
                                 </form>
                             </div>
+
                         </div>
                     ) : (
                             <h2>Please Select a User to Start Chatting</h2>
@@ -202,7 +204,6 @@ class ChatBox extends Component {
                 </div>
                 <Modal
                     visible={this.state.visible}
-                    onOk={this.handleOk}
                     footer={null}
                     onCancel={this.handleCancel}
                 ><img className="modalImg" alt='' src={this.props.image}></img></Modal>

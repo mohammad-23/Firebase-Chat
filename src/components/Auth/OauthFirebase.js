@@ -34,7 +34,6 @@ class OauthFirebase extends Component {
     componentDidMount = () => {
         firebase.auth().onAuthStateChanged(user => {
             this.setState({ isSignedIn: !!user });
-            // console.log("user", user);
             if (user) {
                 let userObj = {
                     email: user.email,
@@ -51,7 +50,7 @@ class OauthFirebase extends Component {
     render() {
         return (
             <div className="App">
-                {this.state.isSignedIn ? (
+                {this.props.currentUser ? (
                     <Redirect to='/' />
                 ) : (
                         <div>
@@ -66,5 +65,10 @@ class OauthFirebase extends Component {
     }
 };
 
+const mapStateToProps = state => {
+    return {
+        currentUser: state.auth.user
+    }
+}
 
-export default connect(null, { loginUser })(OauthFirebase);
+export default connect(mapStateToProps, { loginUser })(OauthFirebase);

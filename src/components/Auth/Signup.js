@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { registerUser } from '../../actions';
 import { connect } from 'react-redux';
 import { Row, Col, Card } from 'antd';
-import firebase from 'firebase';
 
 import StyledComponents from '../StyledComponents';
 import OauthFirebase from './OauthFirebase';
@@ -50,9 +48,9 @@ class Signup extends Component {
     this.props.history.push('/login');      
   }
 
-  componentDidMount() {
-    let user = localStorage.getItem('user');
-  }
+  // componentDidMount() {
+  //   let user = localStorage.getItem('user');
+  // }
 
   handleClick = () => {
     this.props.history.push('/login');
@@ -103,6 +101,10 @@ const validate = (formValues) => {
 
   if (!formValues.password) {
     errors.password = 'Enter your password';
+  }
+
+  if (!formValues.displayName) {
+    errors.displayName = 'Enter your username';
   }
 
   return errors;

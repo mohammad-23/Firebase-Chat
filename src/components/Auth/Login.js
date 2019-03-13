@@ -46,8 +46,6 @@ class Login extends Component {
         this.props.history.push('/');      
       })     
       .catch(error => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
         console.log(error);            
       });
   }
@@ -66,11 +64,6 @@ class Login extends Component {
   }
 
   render() {
-    if (this.state.redirect) {
-      return (
-        <Redirect to="/" />
-      )
-    }
     return (
       <Col style={{ paddingTop: '20px', paddingBottom: '50px', marginTop: '30px' }} >
         <Row md={24} lg={12}>
@@ -101,13 +94,6 @@ class Login extends Component {
           </Card>
         </Row>
       </Col>
-      // <div className="ui container">
-      //   <form className="ui form error" onSubmit={this.props.handleSubmit(this.onSubmit)}>
-      //     <Field name="email" component={this.renderInput} label="Enter Email" />
-      //     <Field name="password" component={this.renderInput} label="Enter password" />
-      //     <button className="ui button primary">Submit</button>
-      //   </form>
-      // </div>
     )
   };
 };

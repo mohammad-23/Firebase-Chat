@@ -14,6 +14,12 @@ class Chat extends Component {
         isUserSelected: false
     }
 
+    componentDidMount() {
+        if (!this.props.currentUser) {
+            return this.props.history.push('/signup');
+        }
+    }
+
     onLogout = () => {
         this.props.onClick(this.props.currentUser);
     }
@@ -22,22 +28,20 @@ class Chat extends Component {
         return (
             <div>
                 <BrowserRouter>
-                    <div>
                         <Layout style={{ minHeight: 'calc(100vh - 130px)' }}>
                             <Sider><UserList /></Sider>
                             <Layout>
                                 <Header>
-                                    <span>
-                                        <p style={{ color: 'white' }}>{this.props.currentUser ? 'Welcome ' + this.props.currentUser.displayName : ''}</p>
+                                    <div>
                                         <button className="ui button primary sign-out" onClick={this.onLogout}>Log Out</button>
-                                    </span>
+                                        <div style={{ color: 'white' }}>{this.props.currentUser ? 'Welcome ' + this.props.currentUser.displayName : ''}</div>
+                                    </div>
                                 </Header>
                                 <Content>
                                     <Route exact path='/chat/:id' component={ChatBox} />
                                 </Content>
                             </Layout>
                         </Layout>
-                    </div>
                 </BrowserRouter>
             </div>
         )
