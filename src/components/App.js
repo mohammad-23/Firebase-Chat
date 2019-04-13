@@ -13,17 +13,15 @@ class App extends Component {
     render() {
         return (
             <div>
-                {!this.props.isSignedIn ? this.props.history.push('/login') :
-                    <BrowserRouter>
-                        <Switch>
-                            <Route exact path='/' component={Landing} />
-                            <Route exact path='/signup' component={Signup} />
-                            <Route exact path='/login' component={Login} />
-                            <Route exact path='/chat' component={Chat} />
-                            }
+                <BrowserRouter>
+                    <Switch>
+                        <Route exact path='/' component={Landing} />
+                        <Route exact path='/signup' component={Signup} />
+                        <Route exact path='/login' component={Login} />
+                        <Route exact path='/chat' component={Chat} />
+                        }
                         </Switch>
-                    </BrowserRouter>
-                }
+                </BrowserRouter>
             </div>
         );
     }
