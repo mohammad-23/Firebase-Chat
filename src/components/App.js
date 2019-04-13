@@ -10,21 +10,20 @@ import Signup from './Auth/Signup';
 import Login from './Auth/Login';
 
 class App extends Component {
-    componentDidMount() {
-        if (!this.props.isSignedIn) return this.props.history.push('/login');
-    }
-
     render() {
         return (
             <div>
-                <BrowserRouter>
-                    <Switch>
-                        <Route exact path='/' component={Landing} />
-                        <Route exact path='/signup' component={Signup} />
-                        <Route exact path='/login' component={Login} />
-                        <Route exact path='/chat' component={Chat} />
-                    </Switch>
-                </BrowserRouter>
+                {!this.props.isSignedIn ? this.props.history.push('/login') :
+                    <BrowserRouter>
+                        <Switch>
+                            <Route exact path='/' component={Landing} />
+                            <Route exact path='/signup' component={Signup} />
+                            <Route exact path='/login' component={Login} />
+                            <Route exact path='/chat' component={Chat} />
+                            }
+                        </Switch>
+                    </BrowserRouter>
+                }
             </div>
         );
     }
