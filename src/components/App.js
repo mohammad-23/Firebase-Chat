@@ -10,6 +10,10 @@ import Signup from './Auth/Signup';
 import Login from './Auth/Login';
 
 class App extends Component {
+    componentDidMount() {
+        if (!this.props.isSignedIn) return this.props.history.push('/login');
+    }
+
     render() {
         return (
             <div>
