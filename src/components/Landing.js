@@ -1,40 +1,44 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { signOut } from '../actions';
-import Chat from './Chat';
+import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { signOut, loginUser } from "../actions";
+import Chat from "./Chat";
 
 class Landing extends Component {
-    onClick = () => {
-        localStorage.removeItem('user');
-        this.setState({user: null});
-        this.props.signOut();
-    }    
+  componentDidMount() {
+    const { history } = this.props;
 
-    componentDidMount() {
-        if(!this.props.currentUser) {
-            return this.props.history.push('/signup');
-        }
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user) {
+      this.props.loginUser(user.user, true);
+    } else {
+      history.push("/login");
+    }
+  }
+
+  render() {
+    if (!this.props.currentUser) {
+      return <Redirect to="/login" />;
     }
 
-    render() {
-        if(!this.props.currentUser) {
-            return <Redirect to='/signup' />
-         }
-
-        return ( 
-            <div>
-                <Chat onClick={this.onClick}/>
-            </div>
-        )
-    }
-};
-
-const mapStateToProps = state => {
-    return {
-        isSignedIn: state.auth.isSignedIn,
-        currentUser: state.auth.user
-    }
+    return (
+      <div>
+        <Chat />
+      </div>
+    );
+  }
 }
 
-export default connect(mapStateToProps, { signOut })(Landing);
+const mapStateToProps = state => {
+  return {
+    isSignedIn: state.auth.isSignedIn,
+    currentUser: state.auth.user
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { signOut, loginUser }
+)(Landing);

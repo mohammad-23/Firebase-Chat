@@ -5,17 +5,16 @@ import { Route, Redirect } from "react-router-dom";
 const PrivateRoute = ({ component: Component, isSignedIn, ...rest }) => (
   <Route
     {...rest}
-    render={props =>(
-      isSignedIn ?  <Component {...props} /> : <Redirect to='/signup'/>  
-    )}
+    render={props =>
+      isSignedIn ? <Component {...props} /> : <Redirect to="/login" />
+    }
   />
 );
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     isSignedIn: state.auth.isSignedIn
-  }
+  };
 };
 
-export default connect(mapStateToProps)(PrivateRoute); 
+export default connect(mapStateToProps)(PrivateRoute);
