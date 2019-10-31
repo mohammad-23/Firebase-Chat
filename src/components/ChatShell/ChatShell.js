@@ -19,7 +19,14 @@ class ChatShell extends Component {
 
     return (
       <Layout style={{ minHeight: "calc(100vh - 130px)" }}>
-        <Sider>
+        <Sider
+          style={{
+            overflow: "auto",
+            height: "100vh",
+            position: "fixed",
+            left: 0
+          }}
+        >
           <UsersList />
         </Sider>
         <Layout>
@@ -36,7 +43,9 @@ class ChatShell extends Component {
               </div>
             </div>
           </Header>
-          <Content>{this.props.children}</Content>
+          <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
+            {this.props.children}
+          </Content>
         </Layout>
       </Layout>
     );
