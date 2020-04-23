@@ -7,12 +7,12 @@ import Chat from "./Chat";
 
 class Landing extends Component {
   componentDidMount() {
-    const { history } = this.props;
+    const { history, loginUser } = this.props;
 
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (user) {
-      this.props.loginUser(user.user, true);
+      loginUser(user.user, true);
     } else {
       history.push("/login");
     }
@@ -23,11 +23,7 @@ class Landing extends Component {
       return <Redirect to="/login" />;
     }
 
-    return (
-      <div>
-        <Chat />
-      </div>
-    );
+    return <Chat />;
   }
 }
 
@@ -38,7 +34,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { signOut, loginUser }
-)(Landing);
+export default connect(mapStateToProps, { signOut, loginUser })(Landing);

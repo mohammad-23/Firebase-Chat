@@ -1,6 +1,5 @@
-import { Form, Button, Badge } from 'antd';
-import styled from 'styled-components';
-
+import { Form, Button, Badge } from "antd";
+import styled from "styled-components";
 
 const FormItem = Form.Item;
 
@@ -31,7 +30,10 @@ const LargeBadge = styled(Badge)`
 const OAuthAnchor = styled.a`
   display: flex;
   align-items: center;
-  &:hover, &:active, &:focus, &:visited {
+  &:hover,
+  &:active,
+  &:focus,
+  &:visited {
     color: black !important;
     text-decoration: none;
   }
@@ -55,7 +57,10 @@ const OAuthButton = styled(Button)`
     min-width: 250px;
   }
 
-  &:hover, &:active, &:focus, &:visited {
+  &:hover,
+  &:active,
+  &:focus,
+  &:visited {
     a {
       color: black !important;
     }
@@ -79,7 +84,10 @@ const OAuthSuccessButton = styled(Button)`
     min-width: 250px;
   }
 
-  &:hover, &:active, &:focus, &:visited {
+  &:hover,
+  &:active,
+  &:focus,
+  &:visited {
     color: #aaa;
   }
 `;
@@ -108,7 +116,7 @@ const StyledComponents = {
   UppercaseH1,
   UppercaseH2,
   UppercaseH3,
-  UppercaseH4,
+  UppercaseH4
 };
 
 export default StyledComponents;

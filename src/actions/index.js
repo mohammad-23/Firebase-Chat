@@ -41,7 +41,9 @@ export const registerUser = (user, isSignedIn) => async dispatch => {
 
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
+
     var createdUser = firebase.auth().currentUser;
+
     await createdUser.updateProfile({
       displayName,
       photoURL:
@@ -57,13 +59,11 @@ export const registerUser = (user, isSignedIn) => async dispatch => {
       payload: creds
     });
   } catch (error) {
-    console.log(error);
     alert("Error occured while Signing up.");
   }
 };
 
 export const signOut = () => async dispatch => {
-  console.log("Logout action");
   try {
     await firebase.auth().signOut();
 

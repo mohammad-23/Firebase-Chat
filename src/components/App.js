@@ -12,17 +12,15 @@ import PrivateRoute from "./PrivateRoute";
 class App extends Component {
   render() {
     return (
-      <div>
-        <BrowserRouter>
-          <Switch>
-            <PrivateRoute exact path="/" component={Landing} />
-            <Route exact path="/signup" component={Signup} />
-            <Route exact path="/login" component={Login} />
-            <PrivateRoute exact path="/chat" component={Chat} />
-            <PrivateRoute exact path="/chat/:id" component={ChatBox} />
-          </Switch>
-        </BrowserRouter>
-      </div>
+      <BrowserRouter>
+        <Switch>
+          <PrivateRoute exact path="/" component={Landing} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/login" component={Login} />
+          <PrivateRoute exact path="/chat" component={Chat} />
+          <PrivateRoute exact path="/chat/:id" component={ChatBox} />
+        </Switch>
+      </BrowserRouter>
     );
   }
 }

@@ -141,12 +141,7 @@ const mapStateToProps = state => {
   };
 };
 
-Signup = connect(
-  mapStateToProps,
-  { registerUser }
-)(Signup);
-
 export default reduxForm({
   form: "signupForm",
   validate
-})(Signup);
+})(connect(mapStateToProps, { registerUser })(Signup));

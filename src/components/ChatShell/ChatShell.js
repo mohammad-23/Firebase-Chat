@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Layout } from "antd";
+import styled from "styled-components";
+import { Button } from "antd";
 
 import UsersList from "../UsersList";
 import { signOut } from "../../actions";
-
-const { Sider, Content, Header } = Layout;
 
 class ChatShell extends Component {
   onLogout = async () => {
@@ -15,40 +14,47 @@ class ChatShell extends Component {
   };
 
   render() {
-    const { currentUser } = this.props;
+    const { currentUser, children } = this.props;
 
     return (
-      <Layout style={{ minHeight: "calc(100vh - 130px)" }}>
-        <Sider
-          style={{
-            overflow: "auto",
-            height: "100vh",
-            position: "fixed",
-            left: 0
-          }}
-        >
+      <Container>
+        <Navbar>
+          <div>{currentUser ? "Welcome " + currentUser.displayName : null}</div>
+          {/* <StyledButton onClick={this.onLogout}>Log Out</StyledButton> */}
+          <Button type="danger">Danger</Button>
+        </Navbar>
+        {/* <Sidebar>
           <UsersList />
-        </Sider>
-        <Layout>
-          <Header>
-            <div>
-              <button
-                className="ui button primary sign-out"
-                onClick={this.onLogout}
-              >
-                Log Out
-              </button>
-              <div style={{ color: "white" }}>
-                {currentUser ? "Welcome " + currentUser.displayName : null}
-              </div>
-            </div>
-          </Header>
-          <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
-            {this.props.children}
-          </Content>
-        </Layout>
-      </Layout>
+        </Sidebar>
+        <div>{children}</div> */}
+        <span>zaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+      </Container>
     );
+
+    // return (
+    //   <Layout>
+    //     <Sider
+    //       style={{
+    //         overflow: "auto",
+    //         height: "100vh",
+    //         position: "fixed",
+    //         left: 0
+    //       }}
+    //     >
+    //       <UsersList />
+    //     </Sider>
+    //     <Layout>
+    //       <Navbar>
+    //         <div>
+    //
+    //         </div>
+    //       </Navbar>
+    //       <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
+    //         {children}
+    //       </Content>
+    //     </Layout>
+    //   </Layout>
+    // );
   }
 }
 
@@ -59,7 +65,26 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { signOut }
-)(ChatShell);
+export default connect(mapStateToProps, { signOut })(ChatShell);
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+const Navbar = styled.div`
+  width: 100% !important;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+`;
+
+const StyledButton = styled.button`
+  padding: 10px 20px;
+  background: blue;
+  border-radius: 5px;
+`;
+
+const Sidebar = styled.div``;

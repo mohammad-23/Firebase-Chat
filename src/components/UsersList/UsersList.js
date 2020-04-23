@@ -1,8 +1,8 @@
 import "../../css/app.css";
+import React, { Component } from "react";
 import firebase from "firebase";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 
 import { selectUser } from "../../actions";
@@ -65,7 +65,4 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators({ selectUser }, dispatch);
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UsersList);
+export default connect(mapStateToProps, mapDispatchToProps)(UsersList);

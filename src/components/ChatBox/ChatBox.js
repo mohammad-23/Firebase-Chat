@@ -57,7 +57,8 @@ class ChatBox extends Component {
   }
 
   renderMessages = (message, idx) => {
-    const { currentUser, selectedUser } = this.props;
+    const { currentUser, selectedUser, setImage } = this.props;
+
     if (message.senderUID === selectedUser.uid) {
       return (
         <div className="containerMessage" key={idx}>
@@ -69,7 +70,7 @@ class ChatBox extends Component {
               alt=""
               src={message.imageUrl}
               onClick={() => {
-                this.props.setImage(message.imageUrl);
+                setImage(message.imageUrl);
                 this.setState({ visible: true });
               }}
             />
@@ -95,7 +96,7 @@ class ChatBox extends Component {
               alt=""
               src={message.imageUrl}
               onClick={() => {
-                this.props.setImage(message.imageUrl);
+                setImage(message.imageUrl);
                 this.setState({ visible: true });
               }}
             />
@@ -108,11 +109,9 @@ class ChatBox extends Component {
     }
   };
 
-  onFormSubmit = event => {
-    event.preventDefault();
-  };
-
   handleImage = e => {
+    const { match, currentUser } = this.props;
+
     if (e.target.files[0]) {
       const image = e.target.files[0];
 
@@ -130,13 +129,13 @@ class ChatBox extends Component {
             .child(image.name)
             .getDownloadURL()
             .then(url => {
-              let selectedUserId = this.props.match.params.id;
+              let selectedUserId = match.params.id;
               let newPostKey = firebase
                 .database()
                 .ref()
                 .child("conversations")
                 .push().key;
-              let uid1 = this.props.currentUser.uid;
+              let uid1 = currentUser.uid;
               let uid2 = selectedUserId;
               let chatKey = uid1 > uid2 ? uid1 + "-" + uid2 : uid2 + "-" + uid1;
               let frbMsg = {
@@ -161,20 +160,23 @@ class ChatBox extends Component {
   };
 
   onMessageSend = e => {
+    const { match, currentUser } = this.props;
+    const { message } = this.state;
+
     e.preventDefault();
 
-    if (this.state.message) {
-      let selectedUserId = this.props.match.params.id;
+    if (message) {
+      let selectedUserId = match.params.id;
       let newPostKey = firebase
         .database()
         .ref()
         .child("conversations")
         .push().key;
-      let uid1 = this.props.currentUser.uid;
+      let uid1 = currentUser.uid;
       let uid2 = selectedUserId;
       let chatKey = uid1 > uid2 ? uid1 + "-" + uid2 : uid2 + "-" + uid1;
       let frbMsg = {
-        text: this.state.message,
+        text: message,
         timestamp: new Date().toISOString(),
         type: "text",
         imageUrl: "",
@@ -194,12 +196,15 @@ class ChatBox extends Component {
   };
 
   render() {
+    const { chatData, message, visible } = this.state;
+    const { image } = this.props;
+
     return (
       <div>
         <ChatShell>
           <div className="chat">
             <div className="chat__main">
-              <div>{_.map(this.state.chatData, this.renderMessages)}</div>
+              <div>{_.map(chatData, this.renderMessages)}</div>
               <div className="chat__footer">
                 <form id="message-form" onSubmit={e => this.onMessageSend(e)}>
                   <input
@@ -208,7 +213,7 @@ class ChatBox extends Component {
                     placeholder="message"
                     autoFocus
                     autoComplete="off"
-                    value={this.state.message}
+                    value={message}
                     onChange={e => this.setState({ message: e.target.value })}
                   />
                   <label htmlFor="file-upload" className="custom-file-upload">
@@ -229,7 +234,7 @@ class ChatBox extends Component {
             )
           </div>
           <Modal
-            visible={this.state.visible}
+            visible={visible}
             footer={null}
             onCancel={() => {
               this.setState({
@@ -237,7 +242,7 @@ class ChatBox extends Component {
               });
             }}
           >
-            <img className="modalImg" alt="" src={this.props.image}></img>
+            <img className="modalImg" alt="" src={image}></img>
           </Modal>
         </ChatShell>
       </div>
@@ -253,10 +258,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { setImage }
-)(withRouter(ChatBox));
+export default connect(mapStateToProps, { setImage })(withRouter(ChatBox));
 
 // componentWillReceiveProps(nextProps) {
 //     console.log('nextProps', nextProps);
